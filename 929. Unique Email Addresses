@@ -1,0 +1,38 @@
+int numUniqueEmails(char** emails, int emailsSize) {
+    char valid_email[100][100];
+    int count = 0;
+
+    for (int i = 0; i < emailsSize; i++) {
+        char val_email[100] = {0};
+        int j = 0;
+        int skip = 0;
+
+        char* email = emails[i];
+        while (email[j] != '\0') {
+            if (email[j] == '+') {
+                skip = 1;
+            } else if (email[j] == '@') {
+                strcat(val_email, email + j);
+                break;
+            } else if (email[j] != '.' && !skip) {
+                strncat(val_email, &email[j], 1);
+            }
+            j++;
+        }
+
+        int found = 0;
+        for (int k = 0; k < count; k++) {
+            if (strcmp(valid_email[k], val_email) == 0) {
+                found = 1;
+                break;
+            }
+        }
+
+        if (!found) {
+            strcpy(valid_email[count], val_email);
+            count++;
+        }
+    }
+
+    return count;
+}
