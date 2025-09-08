@@ -1,3 +1,4 @@
+1.c code
 int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
     for(int i=0;i<numsSize;i++)
     {
@@ -17,3 +18,21 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
     *returnSize = 0;
     return malloc(sizeof(int)*0);
 }
+
+
+
+2. c++ code
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        for(int i=0; i<nums.size();i++){
+            for(int j=i+1;j<nums.size();j++){
+                if(nums[j] == target-nums[i]){
+                return {i,j};
+            }
+        }
+        
+    }
+    return {};
+}
+};
