@@ -1,0 +1,48 @@
+void swap(int *a, int *b)
+{
+    int tmp = *a;
+
+    *a = *b;
+    *b = tmp;
+}
+
+int partition(int *nums, int l, int r)
+{
+    int m = (l + r) / 2;
+    int p;
+
+    if (nums[l] > nums[r])
+        swap(&nums[l], &nums[r]);
+    if (nums[l] > nums[m])
+        swap(&nums[l], &nums[m]);
+    if (nums[m] > nums[r])
+        swap(&nums[m], &nums[r]);
+    p = nums[m];
+    while (1) {
+        while (nums[l] < p)
+            l++;
+        while (nums[r] > p)
+            r--;
+        if (l >= r)
+            return r;
+        swap(&nums[l++], &nums[r--]);
+    }
+}
+
+int quickSelect(int *nums, int l, int r, int target)
+{
+    while (l < r) {
+        int idx = partition(nums, l, r);
+
+        if (target > idx)
+            l = idx + 1;
+        else
+            r = idx;
+    }
+    return nums[target];
+}
+
+int findKthLargest(int *nums, int numsSize, int k)
+{
+    return quickSelect(nums, 0, numsSize - 1, numsSize - k);
+}
