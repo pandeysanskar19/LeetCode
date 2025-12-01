@@ -1,0 +1,20 @@
+c++
+
+int convert(string s){
+    int num=0;
+    for(char c:s){
+        int digit = c-'a';
+        num = num*10+digit;
+    }
+    return num;
+}
+class Solution {
+public:
+    bool isSumEqual(string firstWord, string secondWord, string targetWord) {
+        int a=convert(firstWord);
+        int b=convert(secondWord);
+        int c=convert(targetWord);  
+        return(a+b==c);
+        
+    }
+};
