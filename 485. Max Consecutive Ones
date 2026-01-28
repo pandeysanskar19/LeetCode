@@ -1,0 +1,20 @@
+#c++
+
+class Solution {
+public:
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int left = 0, right = 0, ans = 0;
+        int n = nums.size();
+        
+        while (right < n) {
+            if (nums[right] == 0) {
+                ans = max(ans, right - left);
+                while (right < n && nums[right] == 0) right++;
+                left = right;
+            } else {
+                right++;
+            }
+        }
+        return max(ans, right - left);
+    }
+};
