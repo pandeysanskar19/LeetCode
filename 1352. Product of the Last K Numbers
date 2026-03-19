@@ -1,0 +1,24 @@
+#c++:
+
+class ProductOfNumbers {
+public:
+    vector<int> pp;
+
+    ProductOfNumbers() {
+        pp.push_back(1);
+    }
+    
+    void add(int num) {
+        if (num == 0) {
+            pp.clear();
+            pp.push_back(1);
+        } else {
+            pp.push_back(pp.back() * num);
+        }
+    }
+    
+    int getProduct(int k) {
+        if (pp.size() <= k) return 0;
+        return pp.back() / pp[pp.size() - k - 1];
+    }
+};
