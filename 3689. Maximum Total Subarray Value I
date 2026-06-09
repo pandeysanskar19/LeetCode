@@ -1,0 +1,31 @@
+#Cpp :- using stl functions
+
+class Solution {
+public:
+    long long maxTotalValue(vector<int>& nums, int k) {
+        long long mx = *max_element(nums.begin(),nums.end());
+        long long mn=*min_element(nums.begin(),nums.end());
+
+        return 1LL *k*(mx-mn);
+    }
+};
+
+
+
+#cpp :- Logic based
+
+class Solution {
+public:
+    long long maxTotalValue(vector<int>& nums, int k) {
+        long long mx=nums[0];
+        long long mn=nums[0];
+
+        for(int x:nums){
+            mx=max(mx,(long long)x);
+            mn=min(mn,(long long)x);
+        }
+
+        return 1LL*k*(mx-mn);
+
+    }
+};
