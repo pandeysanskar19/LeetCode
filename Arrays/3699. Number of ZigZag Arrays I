@@ -1,0 +1,52 @@
+class Solution {
+public:
+    static constexpr int MOD = 1e9 + 7;
+
+    int zigZagArrays(int n, int l, int r) {
+        int m = r - l + 1;
+
+        // up[v]   : ways ending at v, last move was up
+        // down[v] : ways ending at v, last move was down
+        vector<long long> up(m + 1), down(m + 1);
+        vector<long long> nUp(m + 1), nDown(m + 1);
+        vector<long long> prefUp(m + 1), prefDown(m + 1);
+
+        // Length = 2
+        for (int v = 1; v <= m; v++) {
+            up[v] = v - 1;     // previous value < v
+            down[v] = m - v;   // previous value > v
+        }
+
+        // Build lengths 3...n
+        for (int len = 3; len <= n; len++) {
+
+            prefUp[0] = prefDown[0] = 0;
+
+            for (int v = 1; v <= m; v++) {
+                prefUp[v] = (prefUp[v - 1] + up[v]) % MOD;
+                prefDown[v] = (prefDown[v - 1] + down[v]) % MOD;
+            }
+
+            long long totalUp = prefUp[m];
+
+            for (int v = 1; v <= m; v++) {
+                // u < v and previous move was down
+                nUp[v] = prefDown[v - 1];
+
+                // u > v and previous move was up
+                nDown[v] = (totalUp - prefUp[v] + MOD) % MOD;
+            }
+
+            swap(up, nUp);
+            swap(down, nDown);
+        }
+
+        long long ans = 0;
+
+        for (int v = 1; v <= m; v++) {
+            ans = (ans + up[v] + down[v]) % MOD;
+        }
+
+        return (int)ans;
+    }
+};
