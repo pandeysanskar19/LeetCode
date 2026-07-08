@@ -1,0 +1,72 @@
+Prefix Sum + Prefix DP
+
+class Solution {
+public:
+    static const int MOD = 1e9 + 7;
+
+    long long power(long long a, long long b) {
+        long long res = 1;
+        while (b) {
+            if (b & 1)
+                res = res * a % MOD;
+            a = a * a % MOD;
+            b >>= 1;
+        }
+        return res;
+    }
+
+    vector<int> sumAndMultiply(string s, vector<vector<int>>& queries) {
+
+        int n = s.size();
+
+        vector<long long> prefNum(n + 1, 0);
+        vector<long long> prefSum(n + 1, 0);
+        vector<int> cnt(n + 1, 0);
+
+        vector<long long> pow10(n + 1), invPow10(n + 1);
+
+        pow10[0] = 1;
+        for (int i = 1; i <= n; i++)
+            pow10[i] = pow10[i - 1] * 10 % MOD;
+
+        invPow10[n] = power(pow10[n], MOD - 2);
+        for (int i = n - 1; i >= 0; i--)
+            invPow10[i] = invPow10[i + 1] * 10 % MOD;
+
+        for (int i = 0; i < n; i++) {
+
+            prefNum[i + 1] = prefNum[i];
+            prefSum[i + 1] = prefSum[i];
+            cnt[i + 1] = cnt[i];
+
+            if (s[i] != '0') {
+                prefNum[i + 1] = (prefNum[i] * 10 + (s[i] - '0')) % MOD;
+                prefSum[i + 1] += s[i] - '0';
+                cnt[i + 1]++;
+            }
+        }
+
+        vector<int> ans;
+
+        for (auto &q : queries) {
+
+            int l = q[0];
+            int r = q[1];
+
+            int digits = cnt[r + 1] - cnt[l];
+
+            long long left =
+                prefNum[l] * pow10[digits] % MOD;
+
+            long long x =
+                (prefNum[r + 1] - left + MOD) % MOD;
+
+            long long sum =
+                prefSum[r + 1] - prefSum[l];
+
+            ans.push_back(x * sum % MOD);
+        }
+
+        return ans;
+    }
+};
