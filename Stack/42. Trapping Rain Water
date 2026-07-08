@@ -1,0 +1,23 @@
+Java :
+
+class Solution {
+    public int trap(int[] height) {
+        int n=height.length;
+        Stack<Integer> st=new Stack<>();
+        int water=0;
+        for(int i =0;i<height.length;i++){
+            while(!st.empty() && height[i]> height[st.peek()]){
+                int bottom = st.pop();
+                if(st.empty()) break;
+
+                int left =st.peek();
+                int width = i-left -1;
+                int boundheight = Math.min(height[i],height[left]) - height[bottom];
+
+                water += width * boundheight;
+            }
+            st.push(i);
+        }
+        return water;
+    }
+}
